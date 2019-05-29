@@ -88,13 +88,13 @@ def PackedRemove(packed, itm):
     if length is 0:
         return
 
-    swapped = do_swap(packed, array, items, itm, length)
+    swapped = do_swap(array, items, itm, length)
     if not swapped: # Item not found
         return
     if length == 2: # Peel off layer
-        packed["array"] = packed["array"][0]
+        packed["array"] = array[0]
     else: # Remove last item
-        packed["array"] = remove_last(packed["array"])
+        packed["array"] = remove_last(array)
     packed["items"] -= 1
 
 
@@ -106,7 +106,7 @@ def remove_last(lst):
     return nLst
 
 
-def do_swap(packed, array, items, itm, length):
+def do_swap(array, items, itm, length):
     last = array[length - 1]
     if last is itm:
         return True
@@ -114,7 +114,6 @@ def do_swap(packed, array, items, itm, length):
     found = do_find(array, length, layers, itm, last)
     if found:
         array[length - 1] = itm
-        packed["array"] = array
         return True
     return False
 
