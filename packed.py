@@ -13,7 +13,7 @@ def PackedTest():
     PackedAppend(packed, 3)                             # [[1, 2], 3]
     itemCount = packed["items"]
     assert(itemCount == 3)
-    
+
     PackedRemove(packed, 5)                             # [[1, 2], 3]
     PackedRemove(packed, 6)                             # [[1, 2], 3]
     PackedRemove(packed, 2)                             # [1, 3]
@@ -22,7 +22,7 @@ def PackedTest():
     assert(itemCount == 2)
     assert(packed["array"][0] == 1)
     assert(packed["array"][1] == 3)
-    
+
     PackedAppend(packed, 2)                             # [[1, 3], 2]
     itemCount = packed["items"]
 
@@ -58,13 +58,13 @@ def PackedTest():
 
     assert(itemCount == 5)
     return True
-    
+
 
 def PackedList():
     packed = {
         "array": [],
         "items": 0
-    } 
+    }
     return packed
 
 
@@ -88,8 +88,7 @@ def PackedRemove(packed, itm):
     if length is 0:
         return
 
-    lastIndex = length - 1
-    swapped = do_swap(packed, array, items, itm, length, lastIndex)
+    swapped = do_swap(packed, array, items, itm, length)
     if not swapped: # Item not found
         return
     if length == 2: # Peel off layer
@@ -107,14 +106,14 @@ def remove_last(lst):
     return nLst
 
 
-def do_swap(packed, array, items, itm, length, lastIndex):
-    last = array[lastIndex]
+def do_swap(packed, array, items, itm, length):
+    last = array[length - 1]
     if last is itm:
         return True
     layers = getLayers(items)
     found = do_find(array, length, layers, itm, last)
     if found:
-        array[lastIndex] = itm
+        array[length - 1] = itm
         packed["array"] = array
         return True
     return False
@@ -132,7 +131,7 @@ def do_find(array, length, layers, itm, last):
             return True
     return False
 
-   
+
 # Input             Layers      Items(n=2)      Items(n=3)          Items(n=4)
 
 # 1   ... 1n-0      1           [1...2]         [1 ... 3]           [1 ... 4]
@@ -149,4 +148,3 @@ def getLayers(items):
         x -= (MAXIMUM_ARRAY_LENGTH - 1)
         layers += 1
     return layers
-        
