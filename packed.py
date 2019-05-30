@@ -110,12 +110,21 @@ def PackedRemove(packed, itm):
     swapped = do_swap(packed, itm)
     if not swapped: # Item not found
         return
-    array = packed["array"]
-    if len(array) == 2: # Peel off layer
-        packed["array"] = array[0]
+
+    if len(packed["array"]) == 2: # Peel off layer
+        peel(packed)
     else: # Remove last item
         remove_last(packed["array"])
     packed["items"] -= 1
+
+
+def peel(packed):
+    '''
+    Peels a layer off of the PackedList
+
+    :param packed: The PackedList
+    '''
+    packed["array"] = packed["array"][0]
 
 
 def remove_last(lst):
