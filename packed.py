@@ -107,8 +107,7 @@ def PackedRemove(packed, itm):
     :param packed: The PackedList
     :param itm: The item to remove from the PackedList
     '''
-    swapped = do_swap(packed, itm)
-    if not swapped: # Item not found
+    if not do_swap(packed, itm): # Item not found
         return
 
     if len(packed["array"]) == 2: # Peel off layer
@@ -158,8 +157,7 @@ def do_swap(packed, itm):
         return True
 
     layers = getLayers(items)
-    found = do_find(array, length, layers, itm, last)
-    if found:
+    if do_find(array, length, layers, itm, last):
         array[length - 1] = itm
         return True
     return False
@@ -178,8 +176,7 @@ def do_find(array, length, layers, itm, last):
     for i in range(length):
         item = array[i]
         if i == 0 and layers > 1:
-            found = do_find(item, len(item), layers - 1, itm, last)
-            if found:
+            if do_find(item, len(item), layers - 1, itm, last):
                 return True
         elif item is itm:
             array[i] = last
