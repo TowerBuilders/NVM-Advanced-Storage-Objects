@@ -169,7 +169,7 @@ def do_swap(packed, itm):
     if last is itm:
         return True
 
-    layers = getLayers(items)
+    layers = get_layers(items)
     if do_find(array, length, layers, itm, last):
         array[length - 1] = itm
         return True
@@ -205,7 +205,12 @@ def do_find(array, length, layers, itm, last):
 # 3n-1... 4n-3      4           [5]             [8 ... 9]           [11 ... 13]
 # 4n-2... 5n-4      5           [6]             [10 ... 11]         [14 ... 16]
 
-def getLayers(items):
+def get_layers(items):
+    '''
+    Calculated the amount of layers in the PackedList
+
+    :param items: The amount of items in the PackedList
+    '''
     x = items
     x -= MAXIMUM_ARRAY_LENGTH
     layers = 1
