@@ -61,6 +61,9 @@ def PackedTest():
 
 
 def PackedList():
+    '''
+    Creates a new PackedList
+    '''
     packed = {
         "array": [],
         "items": 0
@@ -69,6 +72,13 @@ def PackedList():
 
 
 def PackedAppend(packed, itm):
+    '''
+    Appends an item to the PackedList.array or wraps it in a new layer if full.
+    Increments the PackedList.items count.
+
+    :param packed: The PackedList
+    :param itm: The item to add to the PackedList
+    '''
     array = packed["array"]
     length = len(array)
     if length == MAXIMUM_ARRAY_LENGTH:
@@ -82,16 +92,17 @@ def PackedAppend(packed, itm):
 
 
 def PackedRemove(packed, itm):
-    array = packed["array"]
-    items = packed["items"]
-    length = len(array)
-    if length is 0:
-        return
+    '''
+    Removes an item from the PackedList.array.
 
-    swapped = do_swap(array, items, itm, length)
+    :param packed: The PackedList
+    :param itm: The item to remove from the PackedList
+    '''
+    swapped = do_swap(packed, itm)
     if not swapped: # Item not found
         return
-    if length == 2: # Peel off layer
+    array = packed["array"]
+    if len(array) == 2: # Peel off layer
         packed["array"] = array[0]
     else: # Remove last item
         packed["array"] = remove_last(array)
@@ -99,6 +110,11 @@ def PackedRemove(packed, itm):
 
 
 def remove_last(lst):
+    '''
+    Removes the last item from a list.
+
+    :param lst: The list to remove the item from
+    '''
     length = len(lst)
     nLst = []
     for i in range(length - 1):
@@ -106,10 +122,23 @@ def remove_last(lst):
     return nLst
 
 
-def do_swap(array, items, itm, length):
+def do_swap(packed, itm):
+    '''
+    Swaps the last item in the PackedList.array with the item.
+
+    :param packed: The PackedList
+    :param itm: The item to swap
+    '''
+    array = packed["array"]
+    items = packed["items"]
+    length = len(array)
+    if length is 0:
+        return False
+
     last = array[length - 1]
     if last is itm:
         return True
+
     layers = getLayers(items)
     found = do_find(array, length, layers, itm, last)
     if found:
@@ -119,6 +148,15 @@ def do_swap(array, items, itm, length):
 
 
 def do_find(array, length, layers, itm, last):
+    '''
+    Finds the item in the array and swaps it with the last item
+
+    :param array: The PackedList.array
+    :param length: The length of the PackedList.array
+    :param layers: The amount of layers in the PackedList.array
+    :param itm: The item to swap
+    :param last: The last item in the PackedList.array
+    '''
     for i in range(length):
         item = array[i]
         if i == 0 and layers > 1:
