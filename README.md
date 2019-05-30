@@ -24,11 +24,15 @@ When the `array` becomes full, it is wrapped in a new array.
 
 For example, if the maximum array length was 2:
 
+```
 []            // Starting
 [1]           // Add 1
 [1, 2]        // Add 2
 [[1, 2], 3]   // Add 3
+```
 
 To remove an item, just swap it with the last item and remove the last item
 
+```
 [1, 3]        // Remove 2
+```
