@@ -25,47 +25,60 @@ def PackedTest():
 
     PackedAppend(packed, 2)                             # [[1, 3], 2]
     itemCount = packed["items"]
+    assert(itemCount == 3)
 
     PackedAppend(packed, 4)                             # [[[1, 3], 2], 4]
     itemCount = packed["items"]
+    assert(itemCount == 4)
 
     PackedAppend(packed, 5)                             # [[[[1, 3], 2], 4], 5]
     itemCount = packed["items"]
+    assert(itemCount == 5)
 
     PackedAppend(packed, 6)                             # [[[[[1, 3], 2], 4], 5], 6]
     itemCount = packed["items"]
+    assert(itemCount == 6)
 
     PackedAppend(packed, 7)                             # [[[[[[1, 3], 2], 4], 5], 6], 7]
     itemCount = packed["items"]
+    assert(itemCount == 7)
 
     PackedAppend(packed, 8)                             # [[[[[[[1, 3], 2], 4], 5], 6], 7], 8]
     itemCount = packed["items"]
+    assert(itemCount == 8)
 
     PackedAppend(packed, 9)                             # [[[[[[[[1, 3], 2], 4], 5], 6], 7], 8], 9]
     itemCount = packed["items"]
+    assert(itemCount == 9)
 
     PackedRemove(packed, 2)                             # [[[[[[[1, 3], 9], 4], 5], 6], 7], 8]
     itemCount = packed["items"]
+    assert(itemCount == 8)
 
     PackedRemove(packed, 4)                             # [[[[[[1, 3], 9], 8], 5], 6], 7]
     itemCount = packed["items"]
+    assert(itemCount == 7)
 
     PackedRemove(packed, 5)                             # [[[[[1, 3], 9], 8], 7], 6]
     itemCount = packed["items"]
+    assert(itemCount == 6)
 
     PackedRemove(packed, 6)                             # [[[[1, 3], 9], 8], 7]
     itemCount = packed["items"]
+    assert(itemCount == 5)
 
     PackedRemove(packed, 7)                             # [[[1, 3], 9], 8]
     itemCount = packed["items"]
+    assert(itemCount == 4)
 
     PackedRemove(packed, 8)                             # [[1, 3], 9]
     itemCount = packed["items"]
+    assert(itemCount == 3)
 
     PackedRemove(packed, 9)                             # [1, 3]
     itemCount = packed["items"]
-
     assert(itemCount == 2)
+
     return True
 
 
