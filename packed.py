@@ -56,7 +56,16 @@ def PackedTest():
     PackedRemove(packed, 6)                             # [[[[1, 3], 9], 8], 7]
     itemCount = packed["items"]
 
-    assert(itemCount == 5)
+    PackedRemove(packed, 7)                             # [[[1, 3], 9], 8]
+    itemCount = packed["items"]
+
+    PackedRemove(packed, 8)                             # [[1, 3], 9]
+    itemCount = packed["items"]
+
+    PackedRemove(packed, 9)                             # [1, 3]
+    itemCount = packed["items"]
+
+    assert(itemCount == 2)
     return True
 
 
@@ -105,7 +114,7 @@ def PackedRemove(packed, itm):
     if len(array) == 2: # Peel off layer
         packed["array"] = array[0]
     else: # Remove last item
-        packed["array"] = remove_last(array)
+        remove_last(packed["array"])
     packed["items"] -= 1
 
 
@@ -119,7 +128,7 @@ def remove_last(lst):
     nLst = []
     for i in range(length - 1):
         nLst.append(lst[i])
-    return nLst
+    lst = nLst
 
 
 def do_swap(packed, itm):
