@@ -14,10 +14,18 @@ def PackedTest():
     itemCount = packed["items"]
     assert(itemCount == 3)
 
-    PackedRemove(packed, 5)                             # [[1, 2], 3]
-    PackedRemove(packed, 6)                             # [[1, 2], 3]
-    PackedRemove(packed, 2)                             # [1, 3]
-    PackedRemove(packed, 2)                             # [1, 3]
+    removed = PackedRemove(packed, 5)                   # [[1, 2], 3]
+    assert(not removed)
+
+    removed = PackedRemove(packed, 6)                   # [[1, 2], 3]
+    assert(not removed)
+
+    removed = PackedRemove(packed, 2)                   # [1, 3]
+    assert(removed)
+
+    removed = PackedRemove(packed, 2)                   # [1, 3]
+    assert(not removed)
+
     itemCount = packed["items"]
     assert(itemCount == 2)
     assert(packed["array"][0] == 1)
@@ -51,33 +59,40 @@ def PackedTest():
     itemCount = packed["items"]
     assert(itemCount == 9)
 
-    PackedRemove(packed, 2)                             # [[[[[[[1, 3], 9], 4], 5], 6], 7], 8]
+    removed = PackedRemove(packed, 2)                   # [[[[[[[1, 3], 9], 4], 5], 6], 7], 8]
     itemCount = packed["items"]
     assert(itemCount == 8)
+    assert(removed)
 
-    PackedRemove(packed, 4)                             # [[[[[[1, 3], 9], 8], 5], 6], 7]
+    removed = PackedRemove(packed, 4)                   # [[[[[[1, 3], 9], 8], 5], 6], 7]
     itemCount = packed["items"]
     assert(itemCount == 7)
+    assert(removed)
 
-    PackedRemove(packed, 5)                             # [[[[[1, 3], 9], 8], 7], 6]
+    removed = PackedRemove(packed, 5)                   # [[[[[1, 3], 9], 8], 7], 6]
     itemCount = packed["items"]
     assert(itemCount == 6)
+    assert(removed)
 
-    PackedRemove(packed, 6)                             # [[[[1, 3], 9], 8], 7]
+    removed = PackedRemove(packed, 6)                   # [[[[1, 3], 9], 8], 7]
     itemCount = packed["items"]
     assert(itemCount == 5)
+    assert(removed)
 
-    PackedRemove(packed, 7)                             # [[[1, 3], 9], 8]
+    removed = PackedRemove(packed, 7)                   # [[[1, 3], 9], 8]
     itemCount = packed["items"]
     assert(itemCount == 4)
+    assert(removed)
 
-    PackedRemove(packed, 8)                             # [[1, 3], 9]
+    removed = PackedRemove(packed, 8)                   # [[1, 3], 9]
     itemCount = packed["items"]
     assert(itemCount == 3)
+    assert(removed)
 
-    PackedRemove(packed, 9)                             # [1, 3]
+    removed = PackedRemove(packed, 9)                   # [1, 3]
     itemCount = packed["items"]
     assert(itemCount == 2)
+    assert(removed)
 
     return True
 
@@ -121,13 +136,14 @@ def PackedRemove(packed, itm):
     :param itm: The item to remove from the PackedList
     '''
     if not do_swap(packed, itm): # Item not found
-        return
+        return False
 
     if len(packed["array"]) == 2: # Peel off layer
         peel(packed)
     else: # Remove last item
         remove_last(packed["array"])
     packed["items"] -= 1
+    return True
 
 
 def peel(packed):
