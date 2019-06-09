@@ -1,5 +1,3 @@
-from ontology.interop.System.Runtime import Notify
-
 MAXIMUM_ARRAY_LENGTH = 1024
 
 def Main(operation, args):
