@@ -1,6 +1,44 @@
-#### Dynamic/PackedList ####
+from ontology.interop.System.Runtime import Notify
 
 MAXIMUM_ARRAY_LENGTH = 1024
+
+def Main(operation, args):
+    if operation == 'DynamicListTest':
+        return DynamicListTest()
+
+    return False
+
+
+def DynamicListTest():
+    dynamicList = DynamicList()
+
+    added = DynamicAppend(dynamicList, 1)
+    assert(added)
+    count = len(dynamicList["packed"][0]["array"])
+    assert(count == 1)
+
+    added = DynamicAppend(dynamicList, 2)
+    assert(added)
+    count = len(dynamicList["packed"][0]["array"])
+    assert(count == 2)
+
+    removed = DynamicRemove(dynamicList, 1)
+    assert(removed)
+    count = len(dynamicList["packed"][0]["array"])
+    assert(count == 1)
+    items = dynamicList["items"]
+    assert(items == 1)
+
+    removed = DynamicRemove(dynamicList, 2)
+    assert(removed)
+    count = len(dynamicList["packed"][0]["array"])
+    assert(count == 0)
+    items = dynamicList["items"]
+    assert(items == 0)
+
+    return True
+
+#### Dynamic/PackedList ####
 
 def DynamicList():
     '''
@@ -21,6 +59,7 @@ def DynamicAppend(dynamic, itm):
     :param packed: The DynamicList
     :param itm: The item to add to the DynamicList
     '''
+
     packedArr = dynamic["packed"]
     maximum = MAXIMUM_ARRAY_LENGTH * 7 - 6
 
@@ -102,39 +141,41 @@ def PackedRemove(packed, itm):
     :param itm: The item to remove from the PackedList
     '''
 
+    length = len(packed["array"])
+    if length == 0:
+        return False
+
     if not do_swap(packed, itm): # Item not found
         return False
 
-    if len(packed["array"]) == 2: # Peel off layer
+    if length == 2: # Peel off layer
         peel(packed)
     else: # Remove last item
-        remove_last(packed["array"])
+        packed["array"] = remove_last(length, packed["array"])
     packed["items"] -= 1
     return True
 
 
 def peel(packed):
     '''
-    Peels a layer off of the PackedList.
+    Peels a layer off of the PackedList
 
     :param packed: The PackedList
     '''
-
     packed["array"] = packed["array"][0]
 
 
-def remove_last(lst):
+def remove_last(length, lst):
     '''
     Removes the last item from a list.
 
     :param lst: The list to remove the item from
     '''
-
-    length = len(lst)
     nLst = []
-    for i in range(length - 1):
-        nLst.append(lst[i])
-    lst = nLst
+    if length > 1:
+        for i in range(length - 1):
+            nLst.append(lst[i])
+    return nLst
 
 
 def do_swap(packed, itm):
@@ -144,12 +185,14 @@ def do_swap(packed, itm):
     :param packed: The PackedList
     :param itm: The item to swap
     '''
-
     array = packed["array"]
     items = packed["items"]
     length = len(array)
     if length is 0:
         return False
+
+    if length is 1:
+        return True
 
     last = array[length - 1]
     if last is itm:
