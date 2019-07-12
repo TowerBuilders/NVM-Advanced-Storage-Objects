@@ -1,4 +1,4 @@
-# Ontology Advanced Storage Objects
+# NVM Advanced Storage Objects
 
 These are example implementations of the `PackedList` and `DynamicList` structures in Python.
 
@@ -7,9 +7,9 @@ These are example implementations of the `PackedList` and `DynamicList` structur
 
 ### Background
 
-In Ontology, the neovm prevents arrays from holding more than [1024 items](https://github.com/ontio/ontology/blob/e499b33d2383a0e8905a48146603e7aec90b8e90/vm/neovm/params.go#L26).
+NVM prevents arrays from holding more than [1024 items](https://github.com/ontio/ontology/blob/e499b33d2383a0e8905a48146603e7aec90b8e90/vm/neovm/params.go#L26).
 
-The `PackedList` is used to store more than 1024 items in a structure in Ontology smart contracts.
+The `PackedList` is used to store more than 1024 items in a structure in NVM smart contracts.
 
 The `PackedList` is limited that it can only hold 7 layers. That caps its storage at:
 ```
